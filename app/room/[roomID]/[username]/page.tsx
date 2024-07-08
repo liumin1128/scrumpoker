@@ -124,7 +124,7 @@ const RoomUserPage = () => {
   const router = useRouter();
   const { roomID, username } = useParams();
 
-  const socketRef = useRef<Socket>(null);
+  const socketRef = useRef<Socket>();
 
   const [room, setRoom] = useState<Room>();
 
