@@ -7,6 +7,8 @@ import styles from "./page.module.css";
 import { useParams, useRouter } from "next/navigation";
 import "./page.css";
 
+const apiPath = process.env.NEXT_PUBLIC_API_URL as string;
+
 export interface Participant {
   id: string;
   username: string;
@@ -129,7 +131,7 @@ const RoomUserPage = () => {
   const [room, setRoom] = useState<Room>();
 
   const initSocket = useCallback(() => {
-    const socket = io("http://localhost:3111", {
+    const socket = io(apiPath, {
       query: {
         roomID: roomID,
       },

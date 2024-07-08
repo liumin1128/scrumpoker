@@ -2,68 +2,24 @@
 
 import { useRouter } from "next/navigation";
 
+const apiPath = process.env.NEXT_PUBLIC_API_URL;
+
 export default function Home() {
   const router = useRouter();
-
-  const handleJoinRoom = async () => {
-    const roomID = "123456";
-    const username = "liumin";
-    const response = await fetch("http://localhost:3111/scrumpoker/joinroom", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        roomID: roomID,
-        username: username,
-        // iAmScrumMaster: true,
-      }),
-    });
-
-    const data = await response.json();
-    console.log("data");
-    console.log(data);
-
-    router.push("/room/" + roomID + "/" + username);
-  };
-
-  const handleJoinRoom2 = async () => {
-    const roomID = "123456";
-    const username = "sss";
-
-    const response = await fetch("http://localhost:3111/scrumpoker/joinroom", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        roomID: roomID,
-        username: username,
-      }),
-    });
-
-    const data = await response.json();
-    console.log("data");
-    console.log(data);
-
-    router.push("/room/" + roomID + "/" + username);
-  };
 
   const handleSubmit = async () => {
     const roomValue = (document?.getElementById("room") as HTMLInputElement)
       ?.value;
-    console.log(roomValue);
 
     const usernameValue = (
       document?.getElementById("username") as HTMLInputElement
     )?.value;
-    console.log(usernameValue);
 
     if (roomValue === "" || usernameValue === "") {
       return;
     }
 
-    const response = await fetch("http://localhost:3111/scrumpoker/joinroom", {
+    const response = await fetch(apiPath + "/scrumpoker/joinroom", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,6 +38,8 @@ export default function Home() {
     router.push("/room/" + roomValue + "/" + usernameValue);
   };
 
+  console.log(apiPath);
+  console.log(apiPath);
   return (
     <div>
       <section className="text-gray-600 body-font relative ">
@@ -90,10 +48,6 @@ export default function Home() {
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">
               Scrum Poker
             </h1>
-            {/* <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-              Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical
-              gentrify.
-            </p> */}
           </div>
 
           <div className="mx-auto max-w-[348px]">
@@ -143,9 +97,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* <button onClick={handleJoinRoom}>join room</button>
-      <button onClick={handleJoinRoom2}>join room 2</button> */}
     </div>
   );
 }
