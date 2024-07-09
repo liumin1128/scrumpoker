@@ -236,7 +236,7 @@ const RoomUserPage = () => {
   const me = room?.participants.find((p) => p.username === username);
 
   if (!me) {
-    return <div>error</div>;
+    return <div>loading...</div>;
   }
 
   const participants =
