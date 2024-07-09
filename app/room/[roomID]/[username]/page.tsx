@@ -234,18 +234,19 @@ const RoomUserPage = () => {
     return <div>error</div>;
   }
 
-  const voting = room?.status === "voting" && !me.hasVoted;
+  const participants =
+    room?.participants.filter((i) => !i.iAmScrumMaster) || [];
 
-  console.log("voting", voting);
+  const voting = room?.status === "voting" && !me.hasVoted;
 
   const scores =
     room?.status === "voted"
-      ? room?.participants.map((p) => p?.voteValue || 0) || [0]
+      ? participants.map((p) => p?.voteValue || 0) || [0]
       : [0];
 
   return (
     <div>
-      <header className="body-font bg-gray-900 backdrop-blur-sm shadow-lg shadow-slate-800/50">
+      <header className="body-font bg-gray-900 backdrop-blur-sm shadow-lg ">
         <div className="max-h-16 text-white mx-auto flex flex-wrap p-2 flex-row items-center justify-between content-around">
           <div>
             <h1 className="title-font font-medium  text-xl text-slate-200">
@@ -335,7 +336,7 @@ const RoomUserPage = () => {
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-8 sm:py-24 mx-auto">
             <div className="justify-center grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-content-center">
-              {room?.participants.map((participant) => {
+              {participants.map((participant) => {
                 return (
                   <button
                     key={participant.username}

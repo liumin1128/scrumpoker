@@ -1,13 +1,27 @@
 "use client";
-
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Field,
+  Input,
+  Label,
+  Description,
+  Checkbox,
+  Button,
+} from "@headlessui/react";
+import { CheckIcon } from "@heroicons/react/16/solid";
+import clsx from "classnames";
 
 const apiPath = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Home() {
   const router = useRouter();
+  const [iAmScrumMaster, setIAmScrumMaster] = useState<boolean>(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const roomValue = (document?.getElementById("room") as HTMLInputElement)
       ?.value;
 
@@ -27,7 +41,7 @@ export default function Home() {
       body: JSON.stringify({
         roomID: roomValue,
         username: usernameValue,
-        // iAmScrumMaster: true,
+        iAmScrumMaster: iAmScrumMaster,
       }),
     });
 
@@ -35,67 +49,88 @@ export default function Home() {
     console.log("data");
     console.log(data);
 
-    router.push("/room/" + roomValue + "/" + usernameValue);
+    if (data.id) {
+      router.push("/room/" + roomValue + "/" + usernameValue);
+    }
   };
 
-  console.log(apiPath);
-  console.log(apiPath);
   return (
-    <div>
+    <div className="w-full flex items-center justify-center h-screen">
       <section className="text-gray-600 body-font relative ">
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-col text-center w-full mb-12">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">
-              Scrum Poker
-            </h1>
-          </div>
-
-          <div className="mx-auto max-w-[348px]">
-            <div className="flex flex-wrap -m-2">
-              <div className="p-2 w-full">
-                <div className="relative">
-                  <label
-                    htmlFor="name"
-                    className="leading-7 text-sm text-gray-300"
-                  >
-                    Room
-                  </label>
-                  <input
-                    type="text"
-                    id="room"
-                    name="room"
-                    className="w-full bg-slate-900 bg-opacity-50 rounded border border-gray-900 focus:border-indigo-500 focus:bg-slate-700 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
+        <form onSubmit={handleSubmit}>
+          <div className="container px-5 py-24 mx-auto">
+            <div className="mx-auto max-w-[348px]">
+              <div className="flex flex-wrap -m-2">
+                <div className="p-2 w-full">
+                  <h1 className="sm:text-3xl text-2xl font-medium title-font  text-white ">
+                    Scrum Poker
+                  </h1>
+                  <p className=" text-sm font-medium title-font mb-4 text-white ">
+                    Scrum Poker
+                  </p>
                 </div>
-              </div>
-              <div className="p-2 w-full">
-                <div className="relative">
-                  <label
-                    htmlFor="username"
-                    className="leading-7 text-sm text-gray-300"
-                  >
-                    Username
-                  </label>
-                  <input
-                    type="username"
-                    id="username"
-                    name="username"
-                    className="w-full bg-slate-900 bg-opacity-50 rounded border border-gray-900 focus:border-indigo-500 focus:bg-slate-700 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
-              </div>
 
-              <div className="p-2 mt-4 w-full">
-                <button
-                  onClick={handleSubmit}
-                  className="w-full text-center mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-                >
-                  Join Room
-                </button>
+                <div className="p-2 w-full">
+                  <Field>
+                    <Label className="text-sm/6 font-medium text-white">
+                      Room
+                    </Label>
+                    <Input
+                      id="room"
+                      name="room"
+                      required
+                      className={clsx(
+                        "mt-3 block w-full rounded-lg border-none bg-white/5 py-2.5 px-3 text-sm/6 text-white",
+                        "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+                      )}
+                    />
+                  </Field>
+                </div>
+                <div className="p-2 w-full">
+                  <Field>
+                    <Label className="text-sm/6 font-medium text-white">
+                      Username
+                    </Label>
+                    <Input
+                      id="username"
+                      name="username"
+                      required
+                      className={clsx(
+                        "mt-3 block w-full rounded-lg border-none bg-white/5 py-2.5 px-3 text-sm/6 text-white",
+                        "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
+                      )}
+                    />
+                  </Field>
+                </div>
+
+                <div className="w-full max-w-md px-2 mt-4">
+                  <Field className="flex items-center gap-2">
+                    <Checkbox
+                      checked={iAmScrumMaster}
+                      onChange={() => {
+                        setIAmScrumMaster(!iAmScrumMaster);
+                      }}
+                      className="group size-6 rounded-md bg-white/10 p-1 ring-1 ring-white/15 ring-inset data-[checked]:bg-white"
+                    >
+                      <CheckIcon className="hidden size-4 fill-black group-data-[checked]:block" />
+                    </Checkbox>
+                    <Label className="text-white">Join as a Scrum Master</Label>
+                  </Field>
+                </div>
+
+                <div className="p-2 mt-8 w-full">
+                  <Button
+                    type="submit"
+                    // onClick={handleSubmit}
+                    className="w-full items-center gap-2 rounded-md bg-gray-700 py-2.5 px-3 text-sm/6 font-semibold text-white text-center shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white hover:bg-gray-600"
+                  >
+                    Join Room
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </section>
     </div>
   );
