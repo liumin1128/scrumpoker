@@ -276,7 +276,7 @@ const RoomUserPage = () => {
 
           <div className="flex items-center">
             <Popover>
-              <PopoverButton className="mr-8 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
+              <PopoverButton className="mr-4 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
                 <QrCodeIcon className="size-6" />
               </PopoverButton>
 
@@ -285,8 +285,8 @@ const RoomUserPage = () => {
                 anchor="bottom"
                 className="divide-y divide-white/5 rounded-xl bg-white/5 text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0"
               >
-                <div className="p-3 backdrop-blur-lg bg-white/30 ">
-                  <div className="my-2 ">
+                <div className="p-3 bg-slate-950 ">
+                  <div className="mb-2 ">
                     <QRCode
                       id={"https://sm.react.mobi?room=" + roomID}
                       value={"https://sm.react.mobi?room=" + roomID}
@@ -296,15 +296,11 @@ const RoomUserPage = () => {
                     />
                   </div>
 
-                  <p className="text-white ">
-                    {"https://sm.react.mobi?room=" + roomID}
-                  </p>
-
                   <Button
                     onClick={() => {
                       copy("https://sm.react.mobi?room=" + roomID);
                     }}
-                    className="mt-2 inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
+                    className="mt-2 w-full text-center  gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
                   >
                     Copy Link
                   </Button>
