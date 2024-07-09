@@ -251,7 +251,9 @@ const RoomUserPage = () => {
   }
 
   const participants =
-    room?.participants.filter((i) => !i.iAmScrumMaster) || [];
+    room?.participants.filter(
+      (i) => !i.iAmScrumMaster && i.clientIDs?.length > 0
+    ) || [];
 
   const voting = room?.status === "voting" && !me.hasVoted;
 
