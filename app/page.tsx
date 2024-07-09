@@ -9,7 +9,10 @@ const apiPath = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Home() {
   const router = useRouter();
-  const room = useSearchParams().get("room") || undefined;
+
+  const searchParams = useSearchParams();
+
+  const room = searchParams.get("room") || undefined;
 
   const [iAmScrumMaster, setIAmScrumMaster] = useState<boolean>(false);
 

@@ -276,7 +276,7 @@ const RoomUserPage = () => {
 
           <div className="flex items-center">
             <Popover>
-              <PopoverButton className="mr-2 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
+              <PopoverButton className="mr-8 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
                 <QrCodeIcon className="size-6" />
               </PopoverButton>
 
@@ -285,14 +285,21 @@ const RoomUserPage = () => {
                 anchor="bottom"
                 className="divide-y divide-white/5 rounded-xl bg-white/5 text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0"
               >
-                <div className="p-3 backdrop-blur-lg bg-white/30">
-                  <QRCode
-                    id={"https://sm.react.mobi?room=" + roomID}
-                    value={"https://sm.react.mobi?room=" + roomID}
-                    size={180}
-                    bgColor="rgba(255,255,255,0)"
-                    fgColor="rgba(0,0,0,1)" //二维码的颜色
-                  />
+                <div className="p-3 backdrop-blur-lg bg-white/30 ">
+                  <div className="my-2 ">
+                    <QRCode
+                      id={"https://sm.react.mobi?room=" + roomID}
+                      value={"https://sm.react.mobi?room=" + roomID}
+                      size={180}
+                      bgColor="rgba(255,255,255,0)"
+                      fgColor="rgba(255,255,255,1)" //二维码的颜色
+                    />
+                  </div>
+
+                  <p className="text-white ">
+                    {"https://sm.react.mobi?room=" + roomID}
+                  </p>
+
                   <Button
                     onClick={() => {
                       copy("https://sm.react.mobi?room=" + roomID);
