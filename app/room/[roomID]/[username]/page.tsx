@@ -3,8 +3,17 @@
 import { useEffect, useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import io, { Socket } from "socket.io-client";
+import copy from "copy-to-clipboard";
 import styles from "./page.module.css";
 import { useParams, useRouter } from "next/navigation";
+import { QrCodeIcon } from "@heroicons/react/16/solid";
+import QRCode from "qrcode.react";
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Button,
+} from "@headlessui/react";
 import "./page.css";
 
 const apiPath = process.env.NEXT_PUBLIC_API_URL as string;
@@ -130,6 +139,8 @@ const findMinScore = (scores: number[]) => {
 const RoomUserPage = () => {
   const router = useRouter();
   const { roomID, username } = useParams();
+
+  let [isOpen, setIsOpen] = useState(false);
 
   const socketRef = useRef<Socket>();
 
@@ -263,23 +274,55 @@ const RoomUserPage = () => {
             </h2>
           </div>
 
-          {room?.status !== "voting" && (
-            <button
-              className="w-32 text-center text-white inline-flex items-center justify-center  border-0 py-2 px-3 focus:outline-none hover:bg-green-600 rounded text-base bg-green-500 shadow-lg "
-              onClick={handleStartVoting}
-            >
-              Start Voting
-            </button>
-          )}
+          <div className="flex items-center">
+            <Popover>
+              <PopoverButton className="mr-2 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
+                <QrCodeIcon className="size-6" />
+              </PopoverButton>
 
-          {room?.status === "voting" && (
-            <button
-              className="w-32 text-center text-white inline-flex items-center justify-center border-0 py-2 px-3 focus:outline-none hover:bg-red-600 rounded text-base bg-red-500 shadow-lg "
-              onClick={handleEndVoting}
-            >
-              End Voting
-            </button>
-          )}
+              <PopoverPanel
+                transition
+                anchor="bottom"
+                className="divide-y divide-white/5 rounded-xl bg-white/5 text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0"
+              >
+                <div className="p-3 backdrop-blur-lg bg-white/30">
+                  <QRCode
+                    id={"https://sm.react.mobi?room=" + roomID}
+                    value={"https://sm.react.mobi?room=" + roomID}
+                    size={180}
+                    bgColor="rgba(255,255,255,0)"
+                    fgColor="rgba(0,0,0,1)" //二维码的颜色
+                  />
+                  <Button
+                    onClick={() => {
+                      copy("https://sm.react.mobi?room=" + roomID);
+                    }}
+                    className="mt-2 inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white"
+                  >
+                    Copy Link
+                  </Button>
+                </div>
+              </PopoverPanel>
+            </Popover>
+
+            {room?.status !== "voting" && (
+              <button
+                className="w-32 text-center text-white inline-flex items-center justify-center  border-0 py-2 px-3 focus:outline-none hover:bg-green-600 rounded text-base bg-green-500 shadow-lg "
+                onClick={handleStartVoting}
+              >
+                Start Voting
+              </button>
+            )}
+
+            {room?.status === "voting" && (
+              <button
+                className="w-32 text-center text-white inline-flex items-center justify-center border-0 py-2 px-3 focus:outline-none hover:bg-red-600 rounded text-base bg-red-500 shadow-lg "
+                onClick={handleEndVoting}
+              >
+                End Voting
+              </button>
+            )}
+          </div>
         </div>
       </header>
 

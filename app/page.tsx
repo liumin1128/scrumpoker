@@ -1,14 +1,7 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  Field,
-  Input,
-  Label,
-  Description,
-  Checkbox,
-  Button,
-} from "@headlessui/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Field, Input, Label, Checkbox, Button } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/16/solid";
 import clsx from "classnames";
 
@@ -16,11 +9,15 @@ const apiPath = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Home() {
   const router = useRouter();
+  const room = useSearchParams().get("room") || undefined;
+
   const [iAmScrumMaster, setIAmScrumMaster] = useState<boolean>(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // const
 
     const roomValue = (document?.getElementById("room") as HTMLInputElement)
       ?.value;
@@ -62,17 +59,20 @@ export default function Home() {
             <div className="mx-auto max-w-[348px]">
               <div className="flex flex-wrap -m-2">
                 <div className="p-2 w-full">
-                  <h1 className="sm:text-3xl text-2xl font-medium title-font  text-white ">
-                    Scrum Poker
+                  <h1 className="sm:text-3xl text-2xl font-light   text-white ">
+                    <span className="title-font font-bold">Scrum</span> Poker
                   </h1>
-                  <p className=" text-sm font-medium title-font mb-4 text-white ">
-                    Scrum Poker
+                  <p className=" text-sm font-light title-font mb-4 text-white ">
+                    An easy to use voting tool
                   </p>
                 </div>
 
                 <div className="p-2 w-full">
                   <Field>
-                    <Label className="text-sm/6 font-medium text-white">
+                    <Label
+                      htmlFor="room"
+                      className="text-sm/6 font-medium text-white"
+                    >
                       Room
                     </Label>
                     <Input
@@ -83,12 +83,16 @@ export default function Home() {
                         "mt-3 block w-full rounded-lg border-none bg-white/5 py-2.5 px-3 text-sm/6 text-white",
                         "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
                       )}
+                      defaultValue={room}
                     />
                   </Field>
                 </div>
                 <div className="p-2 w-full">
                   <Field>
-                    <Label className="text-sm/6 font-medium text-white">
+                    <Label
+                      htmlFor="username"
+                      className="text-sm/6 font-medium text-white"
+                    >
                       Username
                     </Label>
                     <Input
@@ -106,6 +110,8 @@ export default function Home() {
                 <div className="w-full max-w-md px-2 mt-4">
                   <Field className="flex items-center gap-2">
                     <Checkbox
+                      id="is"
+                      name="is"
                       checked={iAmScrumMaster}
                       onChange={() => {
                         setIAmScrumMaster(!iAmScrumMaster);
@@ -114,7 +120,7 @@ export default function Home() {
                     >
                       <CheckIcon className="hidden size-4 fill-black group-data-[checked]:block" />
                     </Checkbox>
-                    <Label className="text-white">Join as a Scrum Master</Label>
+                    <p className="text-white ml-1">Join as a scrum master</p>
                   </Field>
                 </div>
 
