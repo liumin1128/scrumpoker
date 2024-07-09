@@ -81,16 +81,19 @@ export interface Response {
 }
 
 const calculateAverageScore = (scores: number[]) => {
+  if (scores.length === 0) return 0;
   const sum = scores.reduce((a, b) => a + b, 0);
   const average = sum / scores.length;
   return average.toFixed(2); // 保留两位小数
 };
 
-const findMostChosenScore = (arr: number[]): number[] => {
+const findMostChosenScore = (scores: number[]): number[] => {
+  if (scores.length === 0) return [0];
+
   const frequencyMap: Record<number, number> = {};
 
   // 统计每个元素的频率
-  arr.forEach((element) => {
+  scores.forEach((element) => {
     frequencyMap[element] = (frequencyMap[element] || 0) + 1;
   });
 
@@ -115,10 +118,12 @@ const findMostChosenScore = (arr: number[]): number[] => {
 };
 
 const findMaxScore = (scores: number[]) => {
+  if (scores.length === 0) return 0;
   return Math.max(...scores);
 };
 
 const findMinScore = (scores: number[]) => {
+  if (scores.length === 0) return 0;
   return Math.min(...scores);
 };
 
@@ -240,9 +245,10 @@ const RoomUserPage = () => {
   const voting = room?.status === "voting" && !me.hasVoted;
 
   const scores =
-    room?.status === "voted"
-      ? participants.map((p) => p?.voteValue || 0) || [0]
-      : [0];
+    room?.status === "voted" ? participants.map((p) => p?.voteValue || 0) : [];
+
+  console.log("scores");
+  console.log(scores);
 
   return (
     <div>
@@ -308,7 +314,7 @@ const RoomUserPage = () => {
         </div>
       </section>
 
-      {voting ? (
+      {voting && !me.iAmScrumMaster && (
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-8 sm:py-24 mx-auto">
             <div className="justify-center grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-content-center">
@@ -332,7 +338,9 @@ const RoomUserPage = () => {
             </div>
           </div>
         </section>
-      ) : (
+      )}
+
+      {(!voting || me.iAmScrumMaster) && (
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-8 sm:py-24 mx-auto">
             <div className="justify-center grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-content-center">
@@ -355,7 +363,7 @@ const RoomUserPage = () => {
                           {room?.status === "voted" && participant.voteValue}
                         </h1>
                         <span className="font-normal title-font  title-font sm:text-xs text-xs">
-                          {room?.status === "voting" ? "votin" : ""}
+                          {room?.status === "voting" ? "voting" : ""}
                         </span>
                       </div>
                       <div className="flip-card-back rounded-lg">
@@ -380,6 +388,7 @@ const RoomUserPage = () => {
           </div>
         </section>
       )}
+
       {/* <pre>{JSON.stringify(room, null, 2)}</pre> */}
     </div>
   );
