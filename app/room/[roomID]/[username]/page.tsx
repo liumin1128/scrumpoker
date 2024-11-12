@@ -4,6 +4,7 @@ import { useRef } from "react";
 import copy from "copy-to-clipboard";
 import { useParams } from "next/navigation";
 import { QrCodeIcon, XMarkIcon } from "@heroicons/react/16/solid";
+import { ChatBubbleOvalLeftEllipsisIcon, UserIcon } from "@heroicons/react/24/outline";
 import QRCode from "qrcode.react";
 import { Popover, PopoverButton, PopoverPanel, Button } from "@headlessui/react";
 import MyDialog, { ModalProps } from "@/components/Dialog";
@@ -39,13 +40,11 @@ const RoomUserPage = () => {
   }
 
   const participants = room?.participants.filter((i) => !i.iAmScrumMaster && i.clientIDs?.length > 0) || [];
-
   const voting = room?.status === "voting" && !me?.hasVoted;
-
   const scores = room?.status === "voted" ? participants.map((p) => p?.voteValue || 0) : [];
 
   return (
-    <div>
+    <div style={{ zIndex: 0 }}>
       <header className="body-font bg-gray-900 backdrop-blur-sm shadow-lg ">
         <div className="max-h-16 text-white mx-auto flex flex-wrap p-2 flex-row items-center justify-between content-around">
           <div>
@@ -163,8 +162,9 @@ const RoomUserPage = () => {
                   >
                     <div className={`bg-teal-800 shadow-lg shadow-slate-800/50 rounded-lg card-bg card flip-card-inner `}>
                       <div className="flip-card-front rounded-lg">
-                        <h1 className="font-bold title-font  title-font sm:text-4xl text-3xl">{room?.status === "voted" && participant.voteValue}</h1>
-                        <span className="font-normal title-font  title-font sm:text-xs text-xs">{room?.status === "voting" ? "voting" : ""}</span>
+                        {!room?.status && <UserIcon className="size-12" />}
+                        {room?.status === "voted" && <h1 className="font-bold title-font  title-font sm:text-4xl text-3xl">{participant.voteValue}</h1>}
+                        {room?.status === "voting" && <ChatBubbleOvalLeftEllipsisIcon className="size-12" />}
                       </div>
                       <div className="flip-card-back rounded-lg">
                         <h1></h1>
@@ -176,10 +176,11 @@ const RoomUserPage = () => {
                       }`}
                     >
                       {participant.username}
+
                       <div className="status-icon"></div>
 
                       <button onClick={handleRemoveParticipant(participant)}>
-                        <XMarkIcon className="size-4" color="red" />
+                        <XMarkIcon className="size-4" />
                       </button>
                     </h3>
                   </div>

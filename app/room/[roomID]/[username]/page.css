@@ -1,6 +1,7 @@
 
 .flip-card {
     perspective: 1000px;
+    z-index: 1;
   }
   
   .flip-card-inner {
@@ -33,7 +34,7 @@
   .flip-card-front {
     /* 正面样式 */
     background-color: #fff;
-    color: black;
+    color: #444;
   }
   
   .flip-card-back {
@@ -55,13 +56,10 @@
     display: inline-block;
   }
 
-  .offline {
-    opacity: 0.5;
-  }
-
   .offline .status-icon {
     background-image: url(/wifi-offline.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 80%;
+    opacity: 0.5;
   }
