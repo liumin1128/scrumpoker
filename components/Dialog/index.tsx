@@ -2,7 +2,8 @@
 import React, { Ref, forwardRef, useImperativeHandle, useState } from "react";
 import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
-export interface ModalProps extends Omit<DialogProps, "open"> {
+export interface ModalProps {
+  children?: React.ReactNode;
   title?: string;
   content?: string;
   showCancel?: boolean;

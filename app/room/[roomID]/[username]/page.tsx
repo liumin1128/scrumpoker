@@ -7,7 +7,7 @@ import { QrCodeIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { ChatBubbleOvalLeftEllipsisIcon, UserIcon } from "@heroicons/react/24/outline";
 import QRCode from "qrcode.react";
 import { Popover, PopoverButton, PopoverPanel, Button } from "@headlessui/react";
-import MyDialog, { ModalProps } from "@/components/Dialog";
+import MyDialog, { ModalProps, ModalMethods } from "@/components/Dialog";
 import "./page.css";
 import UseSm from "./useSm";
 import { Participant, Room } from "./types";
@@ -39,7 +39,7 @@ const bingo = () => {
 const RoomUserPage = () => {
   const { room, startVoting, endVoting, doVoting, removeParticipant } = UseSm();
   const { roomID, username } = useParams();
-  const dialogRef = useRef<ModalProps>();
+  const dialogRef = useRef<ModalMethods>();
   const prevRoomRef = useRef<Room>();
 
   useEffect(() => {

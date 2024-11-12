@@ -3,7 +3,7 @@
 import { useEffect, useCallback, useRef, useState } from "react";
 import io, { Socket } from "socket.io-client";
 import { useParams, useRouter } from "next/navigation";
-import { Participant, Room } from "./types";
+import { Participant, Room, Response } from "./types";
 
 const apiPath = process.env.NEXT_PUBLIC_API_URL as string;
 
