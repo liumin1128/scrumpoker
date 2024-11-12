@@ -11,6 +11,7 @@ import "./page.css";
 import UseSm from "./useSm";
 import { Participant } from "./types";
 import { calculateAverageScore, findMostChosenScore, findMaxScore, findMinScore } from "./utils";
+import "animate.css";
 
 const RoomUserPage = () => {
   const { room, startVoting, endVoting, doVoting, removeParticipant } = UseSm();
@@ -136,7 +137,7 @@ const RoomUserPage = () => {
             <div className="justify-center grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-content-center">
               {[0, 1, , 2, 3, 5, 8, 13, 21].map((i) => {
                 return (
-                  <button onClick={doVoting(i as number)} key={i} className={`p-1 sm:p-4 flip-card rounded-lg`}>
+                  <button onClick={doVoting(i as number)} key={i} className={`animate__animated animate__fadeInUp animate__faster p-1 sm:p-4 flip-card rounded-lg`}>
                     <div className={`bg-teal-800 shadow-lg shadow-slate-800/50 rounded-lg card-bg card flip-card-inner `}>
                       <div className="flip-card-front rounded-lg">
                         <h1 className="font-bold title-font text-lg">{i}</h1>
@@ -156,7 +157,10 @@ const RoomUserPage = () => {
             <div className="justify-center grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-content-center">
               {participants.map((participant) => {
                 return (
-                  <div key={participant.username} className={`p-1 sm:p-4 flip-card rounded-lg ${room?.status === "voting" && participant.hasVoted ? "flipped" : ""}`}>
+                  <div
+                    key={participant.username}
+                    className={`animate__animated animate__fadeInUp animate__faster p-1 sm:p-4 flip-card rounded-lg ${room?.status === "voting" && participant.hasVoted ? "flipped" : ""}`}
+                  >
                     <div className={`bg-teal-800 shadow-lg shadow-slate-800/50 rounded-lg card-bg card flip-card-inner `}>
                       <div className="flip-card-front rounded-lg">
                         <h1 className="font-bold title-font  title-font sm:text-4xl text-3xl">{room?.status === "voted" && participant.voteValue}</h1>

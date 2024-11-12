@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Field, Input, Label, Checkbox, Button } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/16/solid";
-import clsx from "classnames";
+import cls from "classnames";
+import "animate.css";
 
 const apiPath = process.env.NEXT_PUBLIC_API_URL;
 
@@ -22,12 +23,9 @@ export default function Home() {
 
     // const
 
-    const roomValue = (document?.getElementById("room") as HTMLInputElement)
-      ?.value;
+    const roomValue = (document?.getElementById("room") as HTMLInputElement)?.value;
 
-    const usernameValue = (
-      document?.getElementById("username") as HTMLInputElement
-    )?.value;
+    const usernameValue = (document?.getElementById("username") as HTMLInputElement)?.value;
 
     if (roomValue === "" || usernameValue === "") {
       return;
@@ -65,24 +63,19 @@ export default function Home() {
                   <h1 className="sm:text-3xl text-2xl font-light   text-white ">
                     <span className="title-font font-bold">Scrum</span> Poker
                   </h1>
-                  <p className=" text-sm font-light title-font mb-4 text-white ">
-                    An easy to use voting tool
-                  </p>
+                  <p className=" text-sm font-light title-font mb-4 text-white ">An easy to use voting tool</p>
                 </div>
 
                 <div className="p-2 w-full">
                   <Field>
-                    <Label
-                      htmlFor="room"
-                      className="text-sm/6 font-medium text-white"
-                    >
+                    <Label htmlFor="room" className="text-sm/6 font-medium text-white">
                       Room
                     </Label>
                     <Input
                       id="room"
                       name="room"
                       required
-                      className={clsx(
+                      className={cls(
                         "mt-3 block w-full rounded-lg border-none bg-white/5 py-2.5 px-3 text-sm/6 text-white",
                         "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
                       )}
@@ -92,17 +85,14 @@ export default function Home() {
                 </div>
                 <div className="p-2 w-full">
                   <Field>
-                    <Label
-                      htmlFor="username"
-                      className="text-sm/6 font-medium text-white"
-                    >
+                    <Label htmlFor="username" className="text-sm/6 font-medium text-white">
                       Username
                     </Label>
                     <Input
                       id="username"
                       name="username"
                       required
-                      className={clsx(
+                      className={cls(
                         "mt-3 block w-full rounded-lg border-none bg-white/5 py-2.5 px-3 text-sm/6 text-white",
                         "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
                       )}
