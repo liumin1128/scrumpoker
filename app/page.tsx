@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Field, Input, Label, Checkbox, Button } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/16/solid";
 import cls from "classnames";
-import "animate.css";
 
 const apiPath = process.env.NEXT_PUBLIC_API_URL;
 
