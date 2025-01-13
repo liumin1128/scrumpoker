@@ -4,14 +4,27 @@ import { useRef, useEffect } from "react";
 import copy from "copy-to-clipboard";
 import { useParams } from "next/navigation";
 import { QrCodeIcon, XMarkIcon } from "@heroicons/react/16/solid";
-import { ChatBubbleOvalLeftEllipsisIcon, UserIcon } from "@heroicons/react/24/outline";
+import {
+  ChatBubbleOvalLeftEllipsisIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import QRCode from "qrcode.react";
-import { Popover, PopoverButton, PopoverPanel, Button } from "@headlessui/react";
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Button,
+} from "@headlessui/react";
 import MyDialog, { ModalProps, ModalMethods } from "@/components/Dialog";
 import "./page.css";
 import UseSm from "./useSm";
 import { Participant, Room } from "./types";
-import { calculateAverageScore, findMostChosenScore, findMaxScore, findMinScore } from "./utils";
+import {
+  calculateAverageScore,
+  findMostChosenScore,
+  findMaxScore,
+  findMinScore,
+} from "./utils";
 import { emojiBlasts } from "emoji-blast";
 
 function areAllElementsEqual(arr: number[]) {
@@ -47,7 +60,9 @@ const RoomUserPage = () => {
       const prevRoom = prevRoomRef.current;
 
       if (prevRoom?.status === "voting" && room?.status === "voted") {
-        const list = room?.participants.filter((p) => !p.iAmScrumMaster).map((p) => p.voteValue) as number[];
+        const list = room?.participants
+          .filter((p) => !p.iAmScrumMaster)
+          .map((p) => p.voteValue) as number[];
         if (areAllElementsEqual(list)) {
           console.log("all elements are equal");
           bingo();
@@ -78,17 +93,25 @@ const RoomUserPage = () => {
     window.location.href = "/";
   }
 
-  const participants = room?.participants.filter((i) => !i.iAmScrumMaster && i.clientIDs?.length > 0) || [];
+  const participants =
+    room?.participants.filter((i) => !i.iAmScrumMaster) || [];
+
   const voting = room?.status === "voting" && !me?.hasVoted;
-  const scores = room?.status === "voted" ? participants.map((p) => p?.voteValue || 0) : [];
+
+  const scores =
+    room?.status === "voted" ? participants.map((p) => p?.voteValue || 0) : [];
 
   return (
     <div style={{ zIndex: 0 }}>
       <header className="body-font bg-gray-900 backdrop-blur-sm shadow-lg ">
         <div className="max-h-16 text-white mx-auto flex flex-wrap p-2 flex-row items-center justify-between content-around">
           <div>
-            <h1 className="title-font font-medium  text-xl text-slate-200">Room ID: {roomID}</h1>
-            <h2 className="title-font font-medium text-xs text-slate-200">Username: {username}</h2>
+            <h1 className="title-font font-medium  text-xl text-slate-200">
+              Room ID: {roomID}
+            </h1>
+            <h2 className="title-font font-medium text-xs text-slate-200">
+              Username: {username}
+            </h2>
           </div>
 
           <div className="flex items-center">
@@ -150,19 +173,27 @@ const RoomUserPage = () => {
         <div className="container px-5 py-2 mx-auto">
           <div className="flex flex-wrap -m-4 text-center">
             <div className="p-4 sm:w-1/4 w-1/2">
-              <h2 className="title-font font-medium sm:text-4xl text-3xl text-slate-200">{calculateAverageScore(scores)}</h2>
+              <h2 className="title-font font-medium sm:text-4xl text-3xl text-slate-200">
+                {calculateAverageScore(scores)}
+              </h2>
               <p className="leading-relaxed">Avg. score</p>
             </div>
             <div className="p-4 sm:w-1/4 w-1/2">
-              <h2 className="title-font font-medium sm:text-4xl text-3xl text-slate-200">{findMostChosenScore(scores).join(", ")}</h2>
+              <h2 className="title-font font-medium sm:text-4xl text-3xl text-slate-200">
+                {findMostChosenScore(scores).join(", ")}
+              </h2>
               <p className="leading-relaxed">Most chosen</p>
             </div>
             <div className="p-4 sm:w-1/4 w-1/2">
-              <h2 className="title-font font-medium sm:text-4xl text-3xl text-slate-200">{findMaxScore(scores)}</h2>
+              <h2 className="title-font font-medium sm:text-4xl text-3xl text-slate-200">
+                {findMaxScore(scores)}
+              </h2>
               <p className="leading-relaxed">Max. score</p>
             </div>
             <div className="p-4 sm:w-1/4 w-1/2">
-              <h2 className="title-font font-medium sm:text-4xl text-3xl text-slate-200">{findMinScore(scores)}</h2>
+              <h2 className="title-font font-medium sm:text-4xl text-3xl text-slate-200">
+                {findMinScore(scores)}
+              </h2>
               <p className="leading-relaxed">Min. score</p>
             </div>
           </div>
@@ -175,8 +206,14 @@ const RoomUserPage = () => {
             <div className="justify-center grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-content-center">
               {[0, 1, , 2, 3, 5, 8, 13, 21].map((i) => {
                 return (
-                  <button onClick={doVoting(i as number)} key={i} className={` p-1 sm:p-4 flip-card rounded-lg`}>
-                    <div className={`bg-teal-800 shadow-lg shadow-slate-800/50 rounded-lg card-bg card flip-card-inner `}>
+                  <button
+                    onClick={doVoting(i as number)}
+                    key={i}
+                    className={` p-1 sm:p-4 flip-card rounded-lg`}
+                  >
+                    <div
+                      className={`bg-teal-800 shadow-lg shadow-slate-800/50 rounded-lg card-bg card flip-card-inner `}
+                    >
                       <div className="flip-card-front rounded-lg">
                         <h1 className="font-bold title-font text-lg">{i}</h1>
                       </div>
@@ -195,12 +232,27 @@ const RoomUserPage = () => {
             <div className="justify-center grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-content-center">
               {participants.map((participant) => {
                 return (
-                  <div key={participant.username} className={` p-1 sm:p-4 flip-card rounded-lg ${room?.status === "voting" && participant.hasVoted ? "flipped" : ""}`}>
-                    <div className={`bg-teal-800 shadow-lg shadow-slate-800/50 rounded-lg card-bg card flip-card-inner `}>
+                  <div
+                    key={participant.username}
+                    className={` p-1 sm:p-4 flip-card rounded-lg ${
+                      room?.status === "voting" && participant.hasVoted
+                        ? "flipped"
+                        : ""
+                    }`}
+                  >
+                    <div
+                      className={`bg-teal-800 shadow-lg shadow-slate-800/50 rounded-lg card-bg card flip-card-inner `}
+                    >
                       <div className="flip-card-front rounded-lg">
                         {!room?.status && <UserIcon className="size-12" />}
-                        {room?.status === "voted" && <h1 className="font-bold title-font  title-font sm:text-4xl text-3xl">{participant.voteValue}</h1>}
-                        {room?.status === "voting" && <ChatBubbleOvalLeftEllipsisIcon className="size-12" />}
+                        {room?.status === "voted" && (
+                          <h1 className="font-bold title-font  title-font sm:text-4xl text-3xl">
+                            {participant.voteValue}
+                          </h1>
+                        )}
+                        {room?.status === "voting" && (
+                          <ChatBubbleOvalLeftEllipsisIcon className="size-12" />
+                        )}
                       </div>
                       <div className="flip-card-back rounded-lg">
                         <h1></h1>
@@ -208,7 +260,9 @@ const RoomUserPage = () => {
                     </div>
                     <h3
                       className={`pt-2 flex align-middle justify-center text-center tracking-widest text-white text-xs font-medium title-font ${
-                        participant?.clientIDs?.length === 0 ? "offline" : "online"
+                        participant?.clientIDs?.length === 0
+                          ? "offline"
+                          : "online"
                       }`}
                     >
                       {participant.username}
