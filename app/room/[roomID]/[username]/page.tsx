@@ -115,7 +115,7 @@ const RoomUserPage = () => {
               alt="Card Icon"
               width={32}
               height={32}
-              className="mr-8"
+              className="mr-4"
             />
             <Field as="div">
               <Label className="text-sm/6 font-medium text-white">
@@ -129,7 +129,7 @@ const RoomUserPage = () => {
 
           <div className="flex items-center">
             <Popover>
-              <PopoverButton className="mr-8 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
+              <PopoverButton className="mr-2 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
                 <QrCodeIcon className="size-6" />
               </PopoverButton>
 
@@ -213,16 +213,18 @@ const RoomUserPage = () => {
         </div>
       </section>
 
+      {/* 选项 */}
       {voting && !me?.iAmScrumMaster && (
         <section className="text-gray-600 body-font">
           <div className="container px-5 py-8 sm:py-24 mx-auto">
             <div className="justify-center grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-content-center">
-              {[0, 1, , 2, 3, 5, 8, 13, 21].map((i) => {
+              {[0, 1, 2, 3, 5, 8, 13, 21].map((i, index) => {
                 return (
                   <button
                     onClick={doVoting(i as number)}
                     key={i}
-                    className={` p-1 sm:p-4 flip-card rounded-lg`}
+                    className={`p-1 sm:p-4 flip-card rounded-lg opacity-0 animate-slide-in-up`}
+                    style={{ animationDelay: `${index * 20}ms` }}
                   >
                     <div
                       className={`bg-teal-800 shadow-lg shadow-slate-800/50 rounded-lg card-bg card flip-card-inner `}
@@ -238,6 +240,7 @@ const RoomUserPage = () => {
           </div>
         </section>
       )}
+      {/* 选项 */}
 
       {(!voting || me?.iAmScrumMaster) && (
         <section className="text-gray-600 body-font">

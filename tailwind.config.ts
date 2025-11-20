@@ -20,6 +20,21 @@ const config: Config = {
         "5xl": "3rem", // 48px
         // 添加或修改你需要的字体大小
       },
+      keyframes: {
+        "slide-in-up": {
+          from: {
+            transform: "translateY(50%)",
+            opacity: "0",
+          },
+          to: {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
+        },
+      },
+      animation: {
+        "slide-in-up": "slide-in-up 0.3s ease-out forwards",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
