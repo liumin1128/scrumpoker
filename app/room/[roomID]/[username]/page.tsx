@@ -14,6 +14,9 @@ import {
   PopoverButton,
   PopoverPanel,
   Button,
+  Label,
+  Description,
+  Field,
 } from "@headlessui/react";
 import MyDialog, { ModalProps, ModalMethods } from "@/components/Dialog";
 import "./page.css";
@@ -26,6 +29,7 @@ import {
   findMinScore,
 } from "./utils";
 import { emojiBlasts } from "emoji-blast";
+import Image from "next/image";
 
 function areAllElementsEqual(arr: number[]) {
   if (arr.length === 0) return true;
@@ -103,20 +107,29 @@ const RoomUserPage = () => {
 
   return (
     <div style={{ zIndex: 0 }}>
-      <header className="body-font bg-gray-900 backdrop-blur-sm shadow-lg ">
-        <div className="max-h-16 text-white mx-auto flex flex-wrap p-2 flex-row items-center justify-between content-around">
-          <div>
-            <h1 className="title-font font-medium  text-xl text-slate-200">
-              Room ID: {roomID}
-            </h1>
-            <h2 className="title-font font-medium text-xs text-slate-200">
-              Username: {username}
-            </h2>
+      <header className="w-full body-font bg-gray-900 backdrop-blur-sm shadow-lg ">
+        <div className=" max-h-16 text-white mx-auto flex flex-wrap px-5 py-2 flex-row items-center justify-between content-around">
+          <div className="flex items-center">
+            <Image
+              src="/card_icon.svg"
+              alt="Card Icon"
+              width={32}
+              height={32}
+              className="mr-8"
+            />
+            <Field as="div">
+              <Label className="text-sm/6 font-medium text-white">
+                Room ID: {roomID}
+              </Label>
+              <Description className="text-sm/6 text-white/50">
+                Username: {username}
+              </Description>
+            </Field>
           </div>
 
           <div className="flex items-center">
             <Popover>
-              <PopoverButton className="mr-4 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
+              <PopoverButton className="mr-8 block text-sm/6 font-semibold text-white/50 focus:outline-none data-[active]:text-white data-[hover]:text-white data-[focus]:outline-1 data-[focus]:outline-white">
                 <QrCodeIcon className="size-6" />
               </PopoverButton>
 
