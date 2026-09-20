@@ -1,15 +1,30 @@
 "use client";
-import React, { Ref, forwardRef, useImperativeHandle, useState } from "react";
-import { Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+
+import {
+  forwardRef,
+  useImperativeHandle,
+  useState,
+  type ReactNode,
+} from "react";
+import { UserRoundMinus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export interface ModalProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   title?: string;
   content?: string;
   showCancel?: boolean;
   showConfirm?: boolean;
-  onConfirm?: () => void;
-  render?: (props: unknown) => React.ReactNode;
+  onConfirm?: () => void | Promise<void>;
+  render?: (props: unknown) => ReactNode;
 }
 
 export interface ModalMethods {
@@ -17,67 +32,63 @@ export interface ModalMethods {
   close: () => void;
 }
 
-const MyDialog = forwardRef((props: ModalProps, ref: Ref<ModalMethods>) => {
+const MyDialog = forwardRef<ModalMethods, ModalProps>((props, ref) => {
   const [open, setOpen] = useState(false);
   const [injectProps, setInjectProps] = useState<ModalProps>({});
+  const {
+    children,
+    title,
+    content,
+    showCancel = true,
+    showConfirm = true,
+    onConfirm,
+    render,
+  } = { ...props, ...injectProps };
 
-  const { children, title, content, showCancel = true, showConfirm = true, onConfirm, render, ...otherProps } = { ...props, ...injectProps };
-
-  const handleCancel = () => {
-    setOpen(false);
-  };
+  useImperativeHandle(ref, () => ({
+    open: (options) => {
+      setInjectProps(options || {});
+      setOpen(true);
+    },
+    close: () => setOpen(false),
+  }));
 
   const handleConfirm = async () => {
-    // 如果存在注入方法，则执行注入方法
-
     try {
-      if (onConfirm) {
-        await onConfirm();
-      }
+      await onConfirm?.();
       setOpen(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
-  const handleClose = () => {
-    setInjectProps({});
-  };
-
-  useImperativeHandle(ref, () => ({
-    open: (op?: ModalProps) => {
-      setOpen(true);
-      if (op) {
-        setInjectProps(op);
-      }
-    },
-    close: () => {
-      handleCancel();
-    },
-  }));
-
   return (
-    <Dialog open={open} as="div" className="relative z-100 focus:outline-none" onClose={handleClose}>
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div className="flex min-h-full items-center justify-center p-4">
-          <DialogPanel transition className="w-full max-w-md rounded-xl bg-white/5 p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
-            <DialogTitle as="h3" className="text-base/7 font-medium text-white">
-              {title}
-            </DialogTitle>
-            <p className="mt-2 text-sm/6 text-white/50">{content}</p>
-
-            <div className="flex mt-4 gap-4">
-              <button
-                className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                onClick={handleConfirm}
-              >
-                Confirm
-              </button>
-              {showCancel && <button onClick={handleCancel}>Cancel</button>}
-            </div>
-          </DialogPanel>
-        </div>
-      </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="max-w-[calc(100vw-2rem)] rounded-2xl bg-card p-6 sm:max-w-[420px] sm:p-7">
+        <span className="flex size-10 items-center justify-center rounded-xl bg-destructive/10 text-destructive">
+          <UserRoundMinus className="size-5" />
+        </span>
+        <DialogHeader className="space-y-3 text-left">
+          <DialogTitle className="text-xl tracking-tight">{title}</DialogTitle>
+          <DialogDescription className="break-words text-sm leading-6">
+            {content}
+          </DialogDescription>
+        </DialogHeader>
+        {children}
+        {render?.(injectProps)}
+        <DialogFooter className="mt-3 gap-2 sm:gap-0">
+          {showCancel && (
+            <Button variant="outline" onClick={() => setOpen(false)} autoFocus>
+              Cancel
+            </Button>
+          )}
+          {showConfirm && (
+            <Button variant="destructive" onClick={handleConfirm}>
+              Confirm
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 });

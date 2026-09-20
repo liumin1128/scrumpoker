@@ -1,20 +1,19 @@
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
+import { ThemeProvider } from "@/components/theme-provider";
+import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Scrum Poker",
-  description: "Scrum Poker",
+  description:
+    "A simple space for shared estimates. Pick your cards, reveal together, and get your team on the same page.",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  colorScheme: "dark",
-  // Also supported by less commonly used
-  // interactiveWidget: 'resizes-visual',
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({
@@ -23,9 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
-        <Suspense>{children}</Suspense>
+        <ThemeProvider>
+          <Suspense>{children}</Suspense>
+        </ThemeProvider>
       </body>
     </html>
   );
