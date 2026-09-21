@@ -1,5 +1,6 @@
 import { ArrowUpRight, Layers2, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { TiltCard } from "@/components/ui/tilt-card";
 import { cn } from "@/lib/utils";
 
 export function HomeHero() {
@@ -33,31 +34,40 @@ export function HomeHero() {
         <div className="dot-grid absolute inset-x-5 inset-y-4 rounded-[50%] [mask-image:radial-gradient(ellipse,black_25%,transparent_72%)]" />
         <div className="absolute left-14 top-6 flex -rotate-[16deg]">
           {[3, 5, 8].map((score, index) => (
-            <div
+            <TiltCard
               key={score}
               className={cn(
-                "relative flex h-[156px] w-[108px] items-center justify-center rounded-xl border shadow-[0_8px_20px_-10px_rgba(30,60,40,0.25)]",
-                index === 0 && "z-10 bg-card text-primary",
-                index === 1 &&
-                  "card-pattern z-20 -ml-4 -translate-y-2 rotate-[16deg] border-primary bg-primary text-primary-foreground",
-                index === 2 &&
-                  "z-30 -ml-3 translate-y-5 rotate-[32deg] border-[#d1dfc5] bg-[#e7eedc] text-primary dark:border-primary/25 dark:bg-secondary",
+                "h-[156px] w-[108px]",
+                index === 0 && "z-10",
+                index === 1 && "z-20 -ml-4 -translate-y-2 rotate-[16deg]",
+                index === 2 && "z-30 -ml-3 translate-y-5 rotate-[32deg]",
               )}
             >
-              <span className="absolute left-3 top-2 text-sm font-semibold">
-                {score}
-              </span>
-              {index === 1 ? (
-                <Layers2 className="size-9" strokeWidth={1.3} />
-              ) : (
-                <span className="text-5xl font-medium tracking-tighter">
+              <div
+                className={cn(
+                  "card-tilt-face relative flex size-full items-center justify-center rounded-xl border shadow-[0_8px_20px_-10px_rgba(30,60,40,0.25)]",
+                  index === 0 && "bg-card text-primary",
+                  index === 1 &&
+                    "card-tilt-face-inverted card-pattern border-primary bg-primary text-primary-foreground",
+                  index === 2 &&
+                    "border-[#d1dfc5] bg-[#e7eedc] text-primary dark:border-primary/25 dark:bg-secondary",
+                )}
+              >
+                <span className="absolute left-3 top-2 text-sm font-semibold">
                   {score}
                 </span>
-              )}
-              <span className="absolute bottom-2 right-3 rotate-180 text-sm font-semibold">
-                {score}
-              </span>
-            </div>
+                {index === 1 ? (
+                  <Layers2 className="size-9" strokeWidth={1.3} />
+                ) : (
+                  <span className="text-5xl font-medium tracking-tighter">
+                    {score}
+                  </span>
+                )}
+                <span className="absolute bottom-2 right-3 rotate-180 text-sm font-semibold">
+                  {score}
+                </span>
+              </div>
+            </TiltCard>
           ))}
         </div>
         <Sparkles

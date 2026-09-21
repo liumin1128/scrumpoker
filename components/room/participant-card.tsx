@@ -1,6 +1,7 @@
 import { Check, Layers2, MoreHorizontal, UserRound, X } from "lucide-react";
 import type { Participant } from "@/app/room/[roomID]/[username]/types";
 import { Button } from "@/components/ui/button";
+import { TiltCard } from "@/components/ui/tilt-card";
 import { getParticipantCardState } from "@/lib/room-presentation";
 import { cn } from "@/lib/utils";
 
@@ -33,7 +34,7 @@ export function ParticipantCard({
       data-participant={participant.username}
       data-state={state}
     >
-      <div
+      <TiltCard
         className="estimate-card"
         aria-label={`${participant.username}: ${stateLabels[state]}${state === "revealed" ? `, ${participant.voteValue ?? "no vote"}` : ""}`}
       >
@@ -45,7 +46,7 @@ export function ParticipantCard({
         >
           <div
             className={cn(
-              "estimate-card-face border bg-card",
+              "card-tilt-face estimate-card-face border bg-card",
               isMe ? "border-primary/40" : "border-border",
             )}
             aria-hidden={state === "submitted"}
@@ -84,7 +85,7 @@ export function ParticipantCard({
             )}
           </div>
           <div
-            className="estimate-card-face estimate-card-back card-pattern border border-primary bg-primary text-primary-foreground"
+            className="card-tilt-face card-tilt-face-inverted estimate-card-face estimate-card-back card-pattern border border-primary bg-primary text-primary-foreground"
             aria-hidden={state !== "submitted"}
           >
             <div className="absolute inset-2 rounded-lg border border-primary-foreground/20" />
@@ -98,7 +99,7 @@ export function ParticipantCard({
             </span>
           </div>
         </div>
-      </div>
+      </TiltCard>
       <div className="mt-3 flex items-center justify-center gap-1.5">
         <span
           className={cn(

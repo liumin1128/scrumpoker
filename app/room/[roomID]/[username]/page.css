@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
+  border-radius: 16px;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   box-shadow: 0 4px 10px -6px rgb(30 60 40 / 0.2);

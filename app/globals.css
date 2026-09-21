@@ -95,6 +95,71 @@
       rgb(255 255 255 / 0.045) 6px
     );
   }
+
+  .card-tilt {
+    position: relative;
+    border-radius: 12px;
+    perspective: 800px;
+  }
+
+  .card-tilt-surface {
+    --card-rotate-x: 0deg;
+    --card-rotate-y: 0deg;
+    --card-lift: 0px;
+    --card-pointer-x: 50%;
+    --card-pointer-y: 50%;
+    --card-glow-opacity: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transform: translateY(var(--card-lift)) rotateX(var(--card-rotate-x))
+      rotateY(var(--card-rotate-y));
+    transform-style: preserve-3d;
+  }
+
+  .card-tilt-face::before,
+  .card-tilt-face::after {
+    content: "";
+    position: absolute;
+    /* Absolute offsets start inside the face's 1px border. */
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: var(--card-glow-opacity, 0);
+  }
+
+  .card-tilt-face::before {
+    z-index: 1;
+    background: radial-gradient(
+      ellipse at var(--card-pointer-x) var(--card-pointer-y),
+      hsl(var(--card-glow-color, var(--primary)) / var(--card-sheen-alpha, 0.06)),
+      transparent 75%
+    );
+  }
+
+  .card-tilt-face::after {
+    z-index: 2;
+    padding: var(--card-edge-width, 1px);
+    background: radial-gradient(
+      110px circle at var(--card-pointer-x) var(--card-pointer-y),
+      hsl(var(--card-glow-color, var(--primary)) / var(--card-edge-alpha, 0.72)),
+      hsl(var(--card-glow-color, var(--primary)) / var(--card-edge-mid-alpha, 0.18)) 45%,
+      transparent 80%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  .card-tilt-face-inverted {
+    --card-glow-color: var(--primary-foreground);
+    --card-sheen-alpha: 0.16;
+    --card-edge-width: 1.5px;
+    --card-edge-alpha: 1;
+    --card-edge-mid-alpha: 0.5;
+  }
 }
 
 @layer utilities {
